@@ -17,7 +17,7 @@ public class AlunoCreateDto {
     @Size(min = 11, max = 11)
     @CPF
     private String cpf;
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate dataNascumento;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataNascimento;
     private Aluno.Genero sexo;
 }
