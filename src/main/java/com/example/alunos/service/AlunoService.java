@@ -1,6 +1,7 @@
 package com.example.alunos.service;
 
 import com.example.alunos.entities.Aluno;
+import com.example.alunos.exception.AlunoUniqueViolationException;
 import com.example.alunos.repository.AlunoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,10 @@ public class AlunoService {
 
     @Transactional
     public Aluno salvar(Aluno aluno) {
-        return alunoRepository.save(aluno);
+        try {
+            return alunoRepository.save(aluno);
+        }catch (org.springframework.dao.DataIntegrityViolationException ex){
+            throw new AlunoUniqueViolationException(String.format("Aluno {%s} já cadastrado", aluno.getNome()));
+        }
     }
 }
