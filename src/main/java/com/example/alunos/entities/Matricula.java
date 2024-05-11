@@ -19,14 +19,16 @@ public class Matricula implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
-    @ManyToOne
-    @JoinColumn(name = "curso_id")
+
+    @JoinColumn
+    (name = "curso_id")
     //private Curso curso;
-    @Column(name = "ativo", nullable = false)
-    private Boolean ativo = true;
+
+    @Column(name = "ativo")
+    private boolean ativo = true;
 
     @Override
     public boolean equals(Object o) {

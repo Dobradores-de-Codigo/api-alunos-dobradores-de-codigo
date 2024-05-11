@@ -25,10 +25,11 @@ public class Aluno implements Serializable {
     private String cpf;
     @Column(name = "data_nascimento", nullable = false, length = 11)
     private LocalDate dataNascimento;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "sexo", nullable = false, length = 1)
     private Genero sexo;
+    @Column(name = "ativo", nullable = false, length = 11)
+    private boolean ativo = true;
 
     public enum Genero {
         F,
