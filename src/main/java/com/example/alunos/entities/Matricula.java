@@ -29,6 +29,10 @@ public class Matricula implements Serializable {
     (name = "curso_id")
     private Long cursoId;
 
+    @Column
+    (name = "curso_nome")
+    private String cursoNome;
+
     @Column(name = "ativo")
     private boolean ativo = true;
 

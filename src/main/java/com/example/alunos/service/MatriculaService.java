@@ -38,16 +38,19 @@ public class MatriculaService {
         List<Matricula> matriculaPorCurso = matriculaRepository.findByCursoId(matricula.getCursoId());
         long cont = matriculaPorCurso.stream().filter(Matricula::isAtivo).count();
 
-        if (cont > 10) {
+        if (cont >= 10) {
             throw new RuntimeException(String.format("Curso lotado"));
         }
 
         List<Matricula> lista = getAlunoMatriculado(matricula.getAluno().getId());
 
-        if (lista.contains(matricula.getAluno().getId())) {
-            throw new RuntimeException(String.format("Aluno já esta matriculado"));
+        for (Matricula matriculaExistente : lista) {
+            if (matriculaExistente.getAluno().getId().equals(matricula.getAluno().getId())) {
+                throw new RuntimeException("Aluno já está matriculado");
+            }
         }
 
         return matriculaRepository.save(matricula);
     }
+
 }
