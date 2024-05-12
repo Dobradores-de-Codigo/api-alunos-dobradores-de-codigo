@@ -9,6 +9,5 @@ import lombok.Setter;
 public class MatriculaCreateDto {
 
     private Long alunoId;
-    private boolean ativo;
     private Long cursoId;
 }

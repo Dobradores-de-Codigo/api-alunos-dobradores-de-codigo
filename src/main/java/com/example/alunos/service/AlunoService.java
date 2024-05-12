@@ -1,15 +1,13 @@
 package com.example.alunos.service;
 
-import com.example.alunos.curso.Curso;
 import com.example.alunos.curso.ConectarCurso;
 import com.example.alunos.entities.Aluno;
 import com.example.alunos.exception.AlunoUniqueViolationException;
+import com.example.alunos.exception.EntityNotFoundException;
 import com.example.alunos.repository.AlunoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +15,13 @@ public class AlunoService {
 
     private final AlunoRepository alunoRepository;
     private final ConectarCurso conectarCurso;
+
+    @Transactional(readOnly = true)
+    public Aluno buscarAlunoPorId(Long id) {
+        return alunoRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Número de Id não encontrado")
+        );
+        }
 
     @Transactional
     public Aluno salvar(Aluno aluno) {
@@ -26,8 +31,5 @@ public class AlunoService {
             throw new AlunoUniqueViolationException(String.format("Aluno {%s} já cadastrado", aluno.getNome()));
         }
     }
-    @Transactional(readOnly = true)
-    public Curso buscarPorId(Long id) {
-        return conectarCurso.getCurso(id);
-    }
+
 }

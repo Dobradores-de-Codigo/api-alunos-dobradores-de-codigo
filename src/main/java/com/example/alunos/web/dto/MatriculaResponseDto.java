@@ -9,8 +9,10 @@ import lombok.Setter;
 public class MatriculaResponseDto {
 
     private Long id;
+    private String cursoNome;
+    private Long cursoId;
     private String alunoNome;
     private boolean ativo;
-    private Long cursoId;
-    private String cursoNome;
+
+
 }
