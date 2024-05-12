@@ -20,6 +20,7 @@ public class MatriculaMapper {
         Matricula matricula = new Matricula();
         matricula.setAluno(alunoService.buscarAlunoPorId(dto.getAlunoId()));
         matricula.setCursoId(curso.getCurso(dto.getCursoId()).id());
+        matricula.setCursoNome(curso.getCurso(dto.getCursoId()).nome());
         return matricula;
     }
 
