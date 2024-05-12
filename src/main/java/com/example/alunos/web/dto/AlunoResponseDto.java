@@ -11,10 +11,7 @@ import java.time.LocalDate;
 @Getter @Setter@NoArgsConstructor@AllArgsConstructor
 public class AlunoResponseDto {
 
-    private Long id;
     private String nome;
-    private String cpf;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataNascimento;
     private Aluno.Genero sexo;
+    private boolean ativo;
 }
