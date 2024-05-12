@@ -44,6 +44,11 @@ public class MatriculaService {
             throw new RuntimeException("Erro ao buscar curso", e);
         }
     }
+    @Transactional(readOnly = true)
+    public List<Matricula> getTodosOsAlunosMatriculados(Long id) {
+        return matriculaRepository.findAll();
+    }
+
     @Transactional
     public Matricula salvar(Matricula matricula) {
         List<Matricula> matriculaPorCurso = matriculaRepository.findByCursoId(matricula.getCursoId());
@@ -62,6 +67,11 @@ public class MatriculaService {
         }
 
         return matriculaRepository.save(matricula);
+    }
+    @Transactional(readOnly = true)
+    public List<Matricula> consultarMatriculas(Long id) {
+        List<Matricula> matriculas = getTodosOsAlunosMatriculados(id);
+        return matriculas;
     }
 
 }
