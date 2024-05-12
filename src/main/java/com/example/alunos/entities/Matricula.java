@@ -1,6 +1,7 @@
 package com.example.alunos.entities;
 
 
+import com.example.alunos.curso.Curso;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +21,13 @@ public class Matricula implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "aluno_id")
+    @ManyToOne
+    @JoinColumn (name = "aluno_id")
     private Aluno aluno;
 
-    @JoinColumn
+    @Column
     (name = "curso_id")
-    //private Curso curso;
+    private Long cursoId;
 
     @Column(name = "ativo")
     private boolean ativo = true;
