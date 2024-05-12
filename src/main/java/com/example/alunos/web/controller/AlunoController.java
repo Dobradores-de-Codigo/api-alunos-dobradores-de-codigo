@@ -2,6 +2,7 @@ package com.example.alunos.web.controller;
 
 import com.example.alunos.curso.Curso;
 import com.example.alunos.entities.Aluno;
+import com.example.alunos.exception.AlunoJaMatriculadoException;
 import com.example.alunos.service.AlunoService;
 import com.example.alunos.web.dto.AlunoCreateDto;
 import com.example.alunos.web.dto.AlunoResponseDto;
@@ -22,8 +23,12 @@ public class AlunoController {
 
     @PostMapping
     public ResponseEntity<AlunoResponseDto> cadastrarAluno(@RequestBody AlunoCreateDto createDto) {
-        Aluno aluno = alunoService.salvar(AlunoMapper.toAluno(createDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body(AlunoMapper.toDto(aluno));
+        try {
+            Aluno aluno = alunoService.salvar(AlunoMapper.toAluno(createDto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(AlunoMapper.toDto(aluno));
+        }catch (Exception e){
+            throw new AlunoJaMatriculadoException("Erro ao salvar aluno.");
+        }
     }
 
 }
