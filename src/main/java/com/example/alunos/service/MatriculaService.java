@@ -8,9 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -24,15 +23,22 @@ public class MatriculaService {
     public List<Matricula> getAlunoMatriculado(Long alunoId) {
         return matriculaRepository.findByAlunoId(alunoId);
     }
+
     @Transactional(readOnly = true)
-    public Optional<Matricula> buscarMatriculaPorId(Long id) {
-        return matriculaRepository.findById(id);
+    public List<Matricula> buscarMatriculaPorId(Long id) {
+        return matriculaRepository.findByCursoId(id);
     }
 
     @Transactional(readOnly = true)
     public Curso buscarCursoPorId(Long id) {
         return conectarCurso.getCurso(id);
     }
+
+    @Transactional(readOnly = true)
+    public List<Matricula> getTodosOsAlunosMatriculados(Long id) {
+        return matriculaRepository.findAll();
+    }
+
     @Transactional
     public Matricula salvar(Matricula matricula) {
         List<Matricula> matriculaPorCurso = matriculaRepository.findByCursoId(matricula.getCursoId());
@@ -49,8 +55,13 @@ public class MatriculaService {
                 throw new RuntimeException("Aluno já está matriculado");
             }
         }
-
         return matriculaRepository.save(matricula);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Matricula> consultarMatriculas(Long id) {
+        List<Matricula> matriculas = getTodosOsAlunosMatriculados(id);
+        return matriculas;
     }
 
 }

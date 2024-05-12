@@ -6,9 +6,13 @@ import com.example.alunos.entities.Matricula;
 import com.example.alunos.service.AlunoService;
 import com.example.alunos.web.dto.MatriculaCreateDto;
 import com.example.alunos.web.dto.MatriculaResponseDto;
+import com.example.alunos.web.dto.MatriculasPorCursoResponseDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MatriculaMapper {
