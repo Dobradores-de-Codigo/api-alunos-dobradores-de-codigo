@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,13 @@ public class AlunoController {
             Aluno aluno = alunoService.salvar(AlunoMapper.toAluno(createDto));
             return ResponseEntity.status(HttpStatus.CREATED).body(AlunoMapper.toDto(aluno));
     }
+    @Operation(summary = "Inativar um aluno", description = "Recurso para inativar um aluno")
+    @ApiResponses({
+            @ApiResponse(responseCode = "202", description = "Aluno inativo com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = AlunoResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Aluno não encontrado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = AlunoResponseDto.class))),
+    })
     @PatchMapping("/{id}")
     public ResponseEntity<AlunoResponseDto> inativarAluno(@PathVariable Long id) {
         Aluno aluno = alunoService.inabilitarAluno(id);

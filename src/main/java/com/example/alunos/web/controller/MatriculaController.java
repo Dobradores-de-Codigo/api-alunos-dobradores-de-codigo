@@ -66,6 +66,12 @@ public class MatriculaController {
         matriculados.setTotalAlunos(matricula.stream().map(x -> AlunoMapper.toDto(x.getAluno())).count());
         return ResponseEntity.status(HttpStatus.OK).body(matriculados);
     }
+    @Operation(summary = "Inabilitar Matricula", description = "Recurso para Desabilitar Matricula",
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Matricula disabilitada com sucesso"),
+                    @ApiResponse(responseCode = "404", description = "Matricula não encontrada",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+            })
     @PatchMapping("/{id}")
     public ResponseEntity<Void> inabilitarMatricula(@PathVariable Long id) {
         matriculaService.inabilitarMatricula(id);
