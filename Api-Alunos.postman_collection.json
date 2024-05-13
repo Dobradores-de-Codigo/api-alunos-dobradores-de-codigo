@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "91521412-e679-4078-873e-5002fef591bb",
+		"name": "Api-Alunos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34287600"
+	},
+	"item": [
+		{
+			"name": "Cadastrar-Aluno",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Jose da Silva\",\r\n  \"cpf\": \"53154781064\",\r\n  \"dataNascimento\": \"01/01/2000\",\r\n  \"sexo\": \"M\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/api/v1/alunos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"v1",
+						"alunos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Matricular",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"alunoId\" : 6,\r\n  \"cursoId\" : 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/api/v1/matriculas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"v1",
+						"matriculas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Todas-As-Matriculas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/api/v1/matriculas/cursos/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"v1",
+						"matriculas",
+						"cursos",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Desabilitar-Aluno",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/api/v1/alunos/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"v1",
+						"alunos",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Desabilitar-Matricula",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/api/v1/matriculas/10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"v1",
+						"matriculas",
+						"10"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
