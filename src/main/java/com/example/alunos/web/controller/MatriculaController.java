@@ -66,5 +66,10 @@ public class MatriculaController {
         matriculados.setTotalAlunos(matricula.stream().map(x -> AlunoMapper.toDto(x.getAluno())).count());
         return ResponseEntity.status(HttpStatus.OK).body(matriculados);
     }
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> inabilitarMatricula(@PathVariable Long id) {
+        matriculaService.inabilitarMatricula(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

@@ -38,12 +38,8 @@ public class AlunoController {
             })
     @PostMapping
     public ResponseEntity<AlunoResponseDto> cadastrarAluno(@RequestBody AlunoCreateDto createDto) {
-        try {
             Aluno aluno = alunoService.salvar(AlunoMapper.toAluno(createDto));
             return ResponseEntity.status(HttpStatus.CREATED).body(AlunoMapper.toDto(aluno));
-        }catch (Exception e){
-            throw new AlunoJaMatriculadoException("Erro ao salvar aluno.");
-        }
     }
     @PatchMapping("/{id}")
     public ResponseEntity<AlunoResponseDto> inativarAluno(@PathVariable Long id) {

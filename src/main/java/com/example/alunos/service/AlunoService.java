@@ -2,6 +2,7 @@ package com.example.alunos.service;
 
 import com.example.alunos.curso.ConectarCurso;
 import com.example.alunos.entities.Aluno;
+import com.example.alunos.entities.Matricula;
 import com.example.alunos.exception.AlunoUniqueViolationException;
 import com.example.alunos.exception.EntityNotFoundException;
 import com.example.alunos.repository.AlunoRepository;
@@ -9,12 +10,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class AlunoService {
 
     private final AlunoRepository alunoRepository;
     private final ConectarCurso conectarCurso;
+    private final MatriculaService matriculaService;
 
     @Transactional(readOnly = true)
     public Aluno buscarAlunoPorId(Long id) {
@@ -35,8 +39,13 @@ public class AlunoService {
     @Transactional
     public Aluno inabilitarAluno(Long id) {
         Aluno aluno = buscarAlunoPorId(id);
-        aluno.setAtivo(false);
+        List<Matricula> lista = matriculaService.getAlunoMatriculado(id);
+        for (Matricula matriculaExistente : lista) {
+            if (matriculaExistente.getAluno().getId().equals(id)) {
+               matriculaExistente.setAtivo(false);
+            }
+            aluno.setAtivo(false);
+        }
         return aluno;
-
     }
 }
