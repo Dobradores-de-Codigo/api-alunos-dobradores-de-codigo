@@ -45,5 +45,10 @@ public class AlunoController {
             throw new AlunoJaMatriculadoException("Erro ao salvar aluno.");
         }
     }
+    @PatchMapping("/{id}")
+    public ResponseEntity<AlunoResponseDto> inativarAluno(@PathVariable Long id) {
+        Aluno aluno = alunoService.inabilitarAluno(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(AlunoMapper.toDto(aluno));
+    }
 
 }
