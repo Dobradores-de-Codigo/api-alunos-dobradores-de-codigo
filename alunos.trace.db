@@ -274,3 +274,12 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: F:/ESTÁGIO/API/
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 62 more
+2024-05-12 22:33:36.559530-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM MATRICULAS ALUNOS [*]ALUNOS"; SQL statement:
+SELECT * FROM MATRICULAS ALUNOS ALUNOS [42000-224]
+2024-05-12 22:50:57.632218-03:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]MATRICULAS"; expected "MERGE"; SQL statement:
+MATRICULAS [42001-224]
+2024-05-12 23:20:29.578572-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM MATRICULAS MATRICULAS [*]MATRICULAS"; SQL statement:
+SELECT * FROM MATRICULAS MATRICULAS MATRICULAS [42000-224]

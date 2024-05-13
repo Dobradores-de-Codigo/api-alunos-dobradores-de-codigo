@@ -28,11 +28,9 @@ public class MatriculaService {
     @Transactional(readOnly = true)
     public List<Matricula> getAlunoMatriculado(Long alunoId) {
         List<Matricula> matriculas = matriculaRepository.findByAlunoId(alunoId);
-        if (matriculas.isEmpty()) {
-            throw new MatriculaNotFoundException("Nenhuma matrícula encontrada para o aluno com o ID " + alunoId);
-        }
         return matriculas;
     }
+
     @Transactional(readOnly = true)
     public Curso buscarCursoPorId(Long id) {
         Curso curso = conectarCurso.getCurso(id);
@@ -66,10 +64,17 @@ public class MatriculaService {
 
         return matriculaRepository.save(matricula);
     }
+
     @Transactional(readOnly = true)
     public List<Matricula> consultarMatriculas(Long id) {
         List<Matricula> matriculas = getTodosOsAlunosMatriculados(id);
         return matriculas;
     }
 
+    @Transactional
+    public void inabilitarMatricula(Long id) {
+        Matricula matricula = matriculaRepository.findById(id).orElseThrow(()
+                -> new  RuntimeException(String.format("Não encontrado")));
+        matricula.setAtivo(false);
+    }
 }
