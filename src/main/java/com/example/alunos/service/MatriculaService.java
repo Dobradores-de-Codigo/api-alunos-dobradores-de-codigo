@@ -3,10 +3,7 @@ package com.example.alunos.service;
 import com.example.alunos.curso.ConectarCurso;
 import com.example.alunos.curso.Curso;
 import com.example.alunos.entities.Matricula;
-import com.example.alunos.exception.AlunoJaMatriculadoException;
-import com.example.alunos.exception.CursoLotadoException;
-import com.example.alunos.exception.CursoNotFoundException;
-import com.example.alunos.exception.MatriculaNotFoundException;
+import com.example.alunos.exception.*;
 import com.example.alunos.repository.MatriculaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -67,14 +64,23 @@ public class MatriculaService {
 
     @Transactional(readOnly = true)
     public List<Matricula> consultarMatriculas(Long id) {
-        List<Matricula> matriculas = getTodosOsAlunosMatriculados(id);
-        return matriculas;
+        try {
+            List<Matricula> matriculas = getTodosOsAlunosMatriculados(id);
+            return matriculas;
+        } catch (Exception e) {
+            throw new MatriculaNotFoundException("Matrículas não encontradas para o curso com ID " + id);
+        }
     }
 
     @Transactional
     public void inabilitarMatricula(Long id) {
-        Matricula matricula = matriculaRepository.findById(id).orElseThrow(()
-                -> new  RuntimeException(String.format("Não encontrado")));
-        matricula.setAtivo(false);
+        try {
+            Matricula matricula = matriculaRepository.findById(id).orElseThrow(
+                    () -> new MatriculaNotFoundException("Matrícula não encontrada com ID " + id)
+            );
+            matricula.setAtivo(false);
+        } catch (Exception e) {
+            throw new InvalidFieldsException("Erro ao inativar matrícula com ID " + id);
+        }
     }
 }
