@@ -33,6 +33,7 @@ public class MatriculaController {
     private final MatriculaService matriculaService;
     private final AlunoService alunoService;
     private final ConectarCurso curso;
+    private final MatriculaMapper matriculaMapper;
 
     @Operation(summary = "Criar uma nova matrícula", description = "Recurso para criar uma nova matrícula",
             responses = {
