@@ -21,15 +21,22 @@ public class AlunoService {
         return alunoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Número de Id não encontrado")
         );
-        }
+    }
 
     @Transactional
     public Aluno salvar(Aluno aluno) {
         try {
             return alunoRepository.save(aluno);
-        }catch (org.springframework.dao.DataIntegrityViolationException ex){
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new AlunoUniqueViolationException(String.format("Aluno {%s} já cadastrado", aluno.getNome()));
         }
     }
 
+    @Transactional
+    public Aluno inabilitarAluno(Long id) {
+        Aluno aluno = buscarAlunoPorId(id);
+        aluno.setAtivo(false);
+        return aluno;
+
+    }
 }
