@@ -5,6 +5,8 @@ import com.example.alunos.curso.Curso;
 import com.example.alunos.entities.Matricula;
 import com.example.alunos.exception.AlunoJaMatriculadoException;
 import com.example.alunos.exception.CursoLotadoException;
+import com.example.alunos.exception.CursoNotFoundException;
+import com.example.alunos.exception.MatriculaNotFoundException;
 import com.example.alunos.repository.MatriculaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -25,25 +27,21 @@ public class MatriculaService {
 
     @Transactional(readOnly = true)
     public List<Matricula> getAlunoMatriculado(Long alunoId) {
-        return matriculaRepository.findByAlunoId(alunoId);
-    }
-    @Transactional(readOnly = true)
-    public Optional<Matricula> buscarMatriculaPorId(Long id) {
-        try {
-            return matriculaRepository.findById(id);
-        }catch (DataAccessException e){
-            throw new RuntimeException("Erro ao salvar a matricula", e);
+        List<Matricula> matriculas = matriculaRepository.findByAlunoId(alunoId);
+        if (matriculas.isEmpty()) {
+            throw new MatriculaNotFoundException("Nenhuma matrícula encontrada para o aluno com o ID " + alunoId);
         }
+        return matriculas;
     }
-
     @Transactional(readOnly = true)
     public Curso buscarCursoPorId(Long id) {
-        try {
-            return conectarCurso.getCurso(id);
-        }catch (Exception e){
-            throw new RuntimeException("Erro ao buscar curso", e);
+        Curso curso = conectarCurso.getCurso(id);
+        if (curso == null) {
+            throw new CursoNotFoundException("Curso não encontrado para o ID " + id);
         }
+        return curso;
     }
+
     @Transactional(readOnly = true)
     public List<Matricula> getTodosOsAlunosMatriculados(Long id) {
         return matriculaRepository.findAll();
