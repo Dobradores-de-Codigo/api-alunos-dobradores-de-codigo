@@ -6,12 +6,15 @@ import com.example.alunos.entities.Matricula;
 import com.example.alunos.exception.AlunoUniqueViolationException;
 import com.example.alunos.exception.EntityNotFoundException;
 import com.example.alunos.repository.AlunoRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Getter
 @RequiredArgsConstructor
 @Service
 public class AlunoService {
@@ -47,5 +50,10 @@ public class AlunoService {
             aluno.setAtivo(false);
         }
         return aluno;
+    }
+
+    public Object findById(Long id) {
+        return alunoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Aluno com ID %d não encontrado", id)));
     }
 }

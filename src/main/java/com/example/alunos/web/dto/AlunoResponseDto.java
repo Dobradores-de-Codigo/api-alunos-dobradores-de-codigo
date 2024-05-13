@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Getter @Setter@NoArgsConstructor@AllArgsConstructor
 public class AlunoResponseDto {
 
+    private Long id;
     private String nome;
     private Aluno.Genero sexo;
     private boolean ativo;

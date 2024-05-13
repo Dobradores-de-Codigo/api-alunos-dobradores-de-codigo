@@ -17,6 +17,7 @@ import java.util.Objects;
 public class Aluno implements Serializable {
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "nome", nullable = false, length = 100)
