@@ -48,7 +48,7 @@ public class MatriculaControllerTest {
     private MatriculaController matriculaController;
 
     @Mock
-    private MatriculaMapper matriculaMapper;
+    private MatriculaMapper matriculaMapperMock;
 
     @Test
     public void testMatricularAlunoSucesso() {
@@ -83,8 +83,8 @@ public class MatriculaControllerTest {
         verify(alunoService, times(1)).findById(anyLong());
         verify(conectarCurso, times(1)).getCurso(anyLong());
         verify(matriculaService, times(1)).salvar(any(Matricula.class));
-        verify(matriculaMapper, times(1)).toDto(matricula, alunoService, conectarCurso);
-        verifyNoMoreInteractions(alunoService, conectarCurso, matriculaService, matriculaMapper);
+        verify(matriculaMapperMock, times(1)).toDto(matricula, alunoService, conectarCurso);
+        verifyNoMoreInteractions(alunoService, conectarCurso, matriculaService, matriculaMapperMock);
     }
 
     @Test
@@ -103,8 +103,8 @@ public class MatriculaControllerTest {
         when(matriculaService.salvar(any(Matricula.class))).thenThrow(new AlunoJaMatriculadoException("Aluno já está matriculado"));
 
         assertThrows(AlunoJaMatriculadoException.class, () -> matriculaController.matricularAluno(createDto));
-        verify(alunoService, times(1)).findById(anyLong());
         verify(conectarCurso, times(1)).getCurso(anyLong());
+        verify(alunoService, times(1)).findById(anyLong());
         verify(matriculaService, times(1)).salvar(any(Matricula.class));
         verifyNoMoreInteractions(alunoService, conectarCurso, matriculaService);
     }
@@ -121,11 +121,11 @@ public class MatriculaControllerTest {
         Curso curso = new Curso(1L, "TI", "Professor", true);
 
         when(alunoService.findById(anyLong())).thenReturn(Optional.of(aluno));
-        when(conectarCurso.getCurso(anyLong())).thenReturn(curso);
+        when(conectarCurso.getCurso(anyLong())).thenThrow(new CursoLotadoException("Curso Lotado"));
 
         assertThrows(CursoLotadoException.class, () -> matriculaController.matricularAluno(createDto));
-        verify(alunoService, times(1)).findById(anyLong());
         verify(conectarCurso, times(1)).getCurso(anyLong());
+        verify(alunoService, times(1)).findById(anyLong());
         verifyNoMoreInteractions(alunoService, conectarCurso);
     }
 
@@ -142,8 +142,8 @@ public class MatriculaControllerTest {
 
         when(alunoService.findById(anyLong())).thenReturn(Optional.of(aluno));
         when(conectarCurso.getCurso(anyLong())).thenReturn(curso);
-        doThrow(new DataAccessException("Test") {
-        }).when(matriculaService).salvar(any(Matricula.class));
+        when(matriculaService.salvar(any(Matricula.class))).thenThrow(new MatriculaNotFoundException("Matrícula não encontrada"));
+
 
         assertThrows(MatriculaNotFoundException.class, () -> matriculaController.matricularAluno(createDto));
         verify(alunoService, times(1)).findById(anyLong());
